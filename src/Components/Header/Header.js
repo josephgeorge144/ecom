@@ -1,17 +1,49 @@
-import React from 'react'
+import React, { useState,useContext } from 'react'
+
 import './Header.css'
 import OlxLogo from '../../Assets/OlxLogo';
 import Search from '../../Assets/Search';
 import Arrow from '../../Assets/Arrow';
 import SellButton from '../../Assets/SellButton';
 import SellButtonPlus from '../../Assets/SellButtonPlus';
+import{ Routes,Route,Link} from 'react-router-dom'
+import Login from '../../Components/Login/Login'
+import { AuthContext,FirebaseContext } from '../../store/Context';
 
-function Header() {
+
+function Header(props) {
+
+const [display, setDisplay] = useState('none')
+const [color, setColor] = useState('rgba(0,0,0,0.4)')
+const [login, setLogin] = useState(false)
+const{user}=useContext(AuthContext);
+const [firebase,auth]=useContext(FirebaseContext)
+
+
+
+  const handleClick=(e)=>{
+  //  setDisplay("block")
+   setLogin(true)
+  //  props.onchange(color)
+
+
+
+  }
+  const handleLogin=(value)=>{
+    
+     setLogin(value)
+
+  
+  
+  
+    }
   return (
+    <div className="fadedview" >
     <div className="headerParentDiv">
           <div className="headerChildDiv">
           <div className="brandName">
-          <OlxLogo></OlxLogo>
+          <Link to='/'> <OlxLogo></OlxLogo></Link>
+         
         </div>
 
         <div className="placeSearch">
@@ -36,9 +68,18 @@ function Header() {
           <Arrow></Arrow>
         </div>
         <div className="loginPage">
-          <span>Login</span>
-          <hr />
+        <a className='loginbutton' onClick={handleClick}>{user ?user.email:'Login'}</a>
+        <hr/>
+            {login && <div className='logindiv' ><Login onClick={handleLogin} /></div>} 
+        
+        
+      
+           
+          
         </div>
+        {user && <button className='logoutbutton' onClick={()=>{
+          auth.signOut()
+        }}>logout</button>}
         <div className="sellMenu">
           <SellButton></SellButton>
           <div className="sellMenuContent">
@@ -47,7 +88,7 @@ function Header() {
           </div>
         </div>
       </div>
-        
+      </div>
 
         
 

@@ -9,6 +9,7 @@ export default function Heart() {
         data-aut-id="icon"
         className
         fillRule="evenodd"
+        color="#fffff"
       >
         <path
           className="rui-77aaa"
