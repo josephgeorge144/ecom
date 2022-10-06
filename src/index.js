@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { FirebaseContext,Justvalue } from './store/Context';
-import { auth, db } from './firebase/config';
+import { auth, db,storage } from './firebase/config';
 import Context from './store/Context'
 
 
@@ -14,7 +14,7 @@ const nmae='jkksep'
 root.render(
   <React.StrictMode>
     <Justvalue.Provider value={nmae}>
-    <FirebaseContext.Provider value={[db,auth]}>
+    <FirebaseContext.Provider value={[db,auth,storage]}>
       <Context>
     <BrowserRouter>
     <App />

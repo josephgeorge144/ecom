@@ -6,7 +6,7 @@ import Search from '../../Assets/Search';
 import Arrow from '../../Assets/Arrow';
 import SellButton from '../../Assets/SellButton';
 import SellButtonPlus from '../../Assets/SellButtonPlus';
-import{ Routes,Route,Link} from 'react-router-dom'
+import{ Routes,Route,Link, useNavigate} from 'react-router-dom'
 import Login from '../../Components/Login/Login'
 import { AuthContext,FirebaseContext } from '../../store/Context';
 
@@ -36,7 +36,10 @@ const [firebase,auth]=useContext(FirebaseContext)
   
   
   
+
     }
+    
+    const navigate=useNavigate()
   return (
     <div className="fadedview" >
     <div className="headerParentDiv">
@@ -70,7 +73,7 @@ const [firebase,auth]=useContext(FirebaseContext)
         <div className="loginPage">
         <a className='loginbutton' onClick={handleClick}>{user ?user.email:'Login'}</a>
         <hr/>
-            {login && <div className='logindiv' ><Login onClick={handleLogin} /></div>} 
+            {login && <div className='logindiv' ><Login onClick={handleLogin} successfullSignin={setLogin} /></div>} 
         
         
       
@@ -78,13 +81,14 @@ const [firebase,auth]=useContext(FirebaseContext)
           
         </div>
         {user && <button className='logoutbutton' onClick={()=>{
-          auth.signOut()
+          auth.signOut();
+          
         }}>logout</button>}
         <div className="sellMenu">
           <SellButton></SellButton>
           <div className="sellMenuContent">
             <SellButtonPlus></SellButtonPlus>
-            <span>SELL</span>
+            <span onClick={()=>navigate('/create')}>SELL</span>
           </div>
         </div>
       </div>

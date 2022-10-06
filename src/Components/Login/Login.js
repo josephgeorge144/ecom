@@ -19,7 +19,7 @@ function Login(props) {
     e.preventDefault()
     setLoad(true)
     console.log("passW",password)
-    auth.signInWithEmailAndPassword(loginname,password).then(()=>{alert('loggedi n'); setLoad(false) }).catch((error)=>{
+    auth.signInWithEmailAndPassword(loginname,password).then(()=>{alert('loggedi n'); setLoad(false);props.successfullSignin(false) }).catch((error)=>{
      setLoad(false) 
       alert(`the error is ${error}`)})
   }

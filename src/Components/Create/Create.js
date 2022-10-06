@@ -1,17 +1,32 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import './Create.css';
 import Header from '../Header/Header';
+import { FirebaseContext ,AuthContext} from '../../store/Context';
+import { useNavigate } from 'react-router-dom';
+
 
 const Create = () => {
   const [name,setName]= useState('')
   const [category,setCategory]= useState('')
-  const [price,setPrice]= useState('')
+  const [price,setPrice]= useState('');
+  const [image,setImage]= useState('')
+  
+  const[db,auth,storage]=useContext(FirebaseContext)
+  const{user}=useContext(AuthContext)
+  const navigate=useNavigate()
+  const date=new Date()
+
 
   const handleSubmit=(e)=>{
-    e.preventDefault()
-    console.log("the price is",category)
+    e.preventDefault();
+    storage.ref(`/image/${image.name}`).put(image).then(({ref})=>{ref.getDownloadURL().then((url)=>{console.log(url);
+      db.collection('products').add({name,category,price,url,userId:user.uid,createdDate:date});navigate(0)
+       
+       })})
+   
+  
   }
-  console.log("the name is",price)
+ 
 
 
   return (
@@ -19,7 +34,7 @@ const Create = () => {
       <Header />
       <card>
         <div className="centerDiv">
-          <form onSubmit={handleSubmit}> 
+         
             <label htmlFor="fname">Name</label>
             <br />
             <input
@@ -55,15 +70,15 @@ const Create = () => {
               }} name="Price" />
             <br />
             
-          </form>
+        
           <br />
-          <img alt="Posts" width="200px" height="200px" src=""></img>
-          <form>
+          <img alt="Posts" width="200px" height="200px" src={image? URL.createObjectURL(image):''}></img>
+          
             <br />
-            <input type="file" />
+            <input type="file" onChange={(e)=>setImage(e.target.files[0])}  />
             <br />
-            <button onClick={handleSubmit} className="uploadBtn">upload and Submit</button>
-          </form>
+            <button onClick={handleSubmit}  className="uploadBtn">upload and Submit</button>
+          
         </div>
       </card>
     </Fragment>
